@@ -16,11 +16,21 @@ import {
 } from 'native-base';
 
 
-class LoginView extends Component<*> {
+class LoginView extends React.Component {
+	state = {
+    username: '',
+    password: '',
+  }
 
-	login() {
+  updateFormField = fieldName => text => {
+    this.setState({ [fieldName]: text })
+  }
 
-	}
+  submitForm = () => {
+    const { username, password } = this.state
+    console.log(username, password)
+    // now do something with email and password
+  }
 
 	render() {
 		const styles = {
@@ -40,26 +50,42 @@ class LoginView extends Component<*> {
 			},
 			inputItemStyle: {
 				marginBottom: 10
+			},
+			restorePasswordStyle: {
+				alignSelf: 'center',
 			}
 
 		};
-    const { navigation } = this.props;
-    console.log(this, this.props);
 
 		return (
 			<Form style={ styles.containerStyle }>
 				<Item regular style={ styles.inputItemStyle }>
-					<Input style={ styles.inputUserStyle } placeholder='User' />
+					<Input
+						autoCapitalize='none'
+						keyboardType='email-address'
+						style={ styles.inputUserStyle } 
+						placeholder='Username' 
+						onChangeText={this.updateFormField('username')}
+						value={ this.state.username } />
 				</Item>
+					
 				<Item regular style={ styles.inputItemStyle }>
-					<Input secureTextEntry style={ styles.inputPasswordStyle } placeholder='Password' />
+					<Input
+						secureTextEntry
+						style={ styles.inputPasswordStyle }
+						placeholder='Password'
+						onChangeText={this.updateFormField('password')}
+						value={ this.state.password } />
 				</Item>
 
 	            <Button
-	            	style={ styles.loginButtonStyle }>
+	            	onPress={ this.submitForm }
+	            	style={ styles.loginButtonStyle }
+					onPress={() => this.props.onLoginClick()}>
 	            	<Text>Log in</Text>
 	            </Button>
 				<Button
+					style={ styles.restorePasswordStyle }
 					small
 					transparent
 					warning

@@ -6,16 +6,20 @@ import {
   View,
   Image,
   KeyboardAvoidingView
-} from 'react-native';
+} from 'react-native'
 
 import {
   StackNavigator,
-} from 'react-navigation';
+} from 'react-navigation'
 
-import LoginView from '../views/login-view';
-import AuthScreen from '../screens/auth-screen';
+import LoginView from '../views/login-view'
+import AuthScreen from '../screens/auth-screen'
+import MainScreen from '../screens/main-screen'
 
-class SplashScreen extends Component<{}> {
+import { connect } from 'react-redux'
+import { actions } from '../store/actions'
+
+class SplashScreen extends Component {
 	static navigationOptions = {
 		title: 'Welcome',
 	};
@@ -38,10 +42,8 @@ class SplashScreen extends Component<{}> {
 	}
 
 	render() {
-		console.log('SplashScreen', this);
 		const styles = {
 			splashScreenStyle: {
-				//backgroundColor: '#d20000',
 				flex: 1,
 				justifyContent: 'flex-start'
 			},
@@ -55,10 +57,10 @@ class SplashScreen extends Component<{}> {
 				width: 80, height: 80,
 			}
 		};
-		const { navigate } = this.props.navigation;
-		return (
 
-    		
+		const { navigate } = this.props.navigation;
+
+		return (
 			<KeyboardAvoidingView style={ styles.splashScreenStyle }>
 				<View style={ styles.logoContainerStyle }>
 					<Image 
@@ -67,15 +69,17 @@ class SplashScreen extends Component<{}> {
 				</View>
 				<LoginView
 					onSignUpClick={ () => navigate('Auth', { view: 'SIGN_UP_VIEW' }) }
-					onRestorePasswordClick={ () => navigate('Auth', { view: 'RESTORE_PASSWORD_VIEW' }) }>
+					onRestorePasswordClick={ () => navigate('Auth', { view: 'RESTORE_PASSWORD_VIEW' }) }
+					onLoginClick={ () => navigate('Content') }>
 				</LoginView>
 			</KeyboardAvoidingView>
 		);
 	}
 }
 const AppNavigator = StackNavigator({
-  Main: {screen: SplashScreen},
-  Auth: {screen: AuthScreen},
-});
+  Main: { screen: SplashScreen },
+  Auth: { screen: AuthScreen },
+  Content: { screen: MainScreen }
+})
 
-export default () => <AppNavigator />;
+export default () => <AppNavigator />

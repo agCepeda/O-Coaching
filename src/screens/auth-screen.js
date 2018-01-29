@@ -11,11 +11,13 @@ import {
   StackNavigator,
 } from 'react-navigation';
 
+import { connect } from 'react-redux'
+import { actions } from '../store/actions'
 
-export default class AuthScreen extends Component<{}> {
-	static navigationOptions = {
-		title: 'Create an account'
-	};
+export default class AuthScreen extends Component {
+	static navigationOptions = ({navigation}) => ({
+		title: navigation.state.params.view === 'RESTORE_PASSWORD_VIEW' ? 'Restore password' : 'Create an account',
+	});
 
 	checkSession() {
 		
@@ -50,3 +52,13 @@ export default class AuthScreen extends Component<{}> {
 		);
 	}
 }
+
+/*
+const mapStateToProps = (state) => ({
+  session: state.session,
+  user: state.user
+})
+
+
+export default connect(mapStateToProps)(AuthScreen)
+*/

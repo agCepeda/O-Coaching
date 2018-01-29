@@ -4,20 +4,27 @@ import {
   StyleSheet,
   Text,
   View
-} from 'react-native';
+} from 'react-native'
 
-import SplashScreen from './screens/splash-screen';
+import { Provider } from 'react-redux'
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+import SplashScreen from './screens/splash-screen'
+import MainScreen from './screens/main-screen'
 
-export default class App extends Component<{}> {
+//import store from './store/'
+
+
+export default class App extends Component {
+
+  state = {
+      isLogged: true
+  }
 
   renderScreen () {
+    if (this.state.isLogged) {
+        return <MainScreen></MainScreen>
+    }
+    return <SplashScreen></SplashScreen>
   }
 
   render() {
@@ -26,4 +33,16 @@ export default class App extends Component<{}> {
     );
   }
 }
+/*
+const mapStateToProps = (state) => ({
+    notifications: state.settings.notifications
+})
 
+ Root = () => {
+    return (
+        <Provider store={store}>
+            <App />
+        </Provider>
+    )
+}
+*/
