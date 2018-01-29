@@ -41,11 +41,8 @@ export default class MainScreen extends Component {
 
 	render() {
 		const styles = {
-			listStyle: {
-				flex: 1
-			},
 			containerStyle: {
-
+				flex: 1
 			},
 			headerStyle: {
 				flexDirection: 'row',
@@ -74,15 +71,12 @@ export default class MainScreen extends Component {
 			},
 		}
 		return (
-			<View>
+			<View style={ styles.containerStyle }>
 				<List
 					dataArray={this.state.albums}
 					renderRow={(item) =>
 					<ListItem
-						style={ styles.containerStyle }
-						onPress={() => { 
-							// Actions.RepoInfo();
-							// this.props.repoSelected(item)
+						onPress={() => {
 							this.showAlbumDetailView(item)
 						}}>
 						<View style={ styles.headerStyle }>
