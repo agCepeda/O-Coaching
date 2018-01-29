@@ -15,6 +15,7 @@ import {
 import LoginView from '../views/login-view'
 import AuthScreen from '../screens/auth-screen'
 import MainScreen from '../screens/main-screen'
+import AlbumDetailScreen from '../screens/detail-screen'
 
 import { connect } from 'react-redux'
 import { actions } from '../store/actions'
@@ -79,7 +80,8 @@ class SplashScreen extends Component {
 const AppNavigator = StackNavigator({
   Main: { screen: SplashScreen },
   Auth: { screen: AuthScreen },
-  Content: { screen: MainScreen }
+  Content: { screen: MainScreen },
+  Detail: { screen: AlbumDetailScreen }
 })
 
 export default () => <AppNavigator />

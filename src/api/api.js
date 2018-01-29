@@ -20,6 +20,24 @@ class Api {
 	}
 
 	checkSession(callback) {
+		this.httpClient
+			.get('auth/check-session')
+			.then(response => callback(response, null))
+			.catch(error => callback(null, error));
+	}
+
+	login(username, password, callback) {
+		this.httpClient
+			.post('auth/login', {
+				username: username,
+				password: password
+			})
+			.then(response => {
+
+			})
+			.catch(error => {
+
+			});
 	}
 }
 
