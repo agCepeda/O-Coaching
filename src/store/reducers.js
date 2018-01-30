@@ -1,26 +1,17 @@
 import { ACTIONS } from './actions'
 
 const initialStates = {
-	session: {
-		token: null
-	},
-	user: null
+	session: null
 }
 
-export const sessionReducer = (state = initialStates.settings, action) => {
+export const session = (state = initialStates.session, action) => {
 	switch (action.type) {
-		case ACTIONS.SESSION_SUCCESS:
-			return Object.assign({}, state, { token: action.sessionToken })
+		case ACTIONS.AUTH_SUCCESS:
+			return action.session
+		case ACTIONS.AUTH_FAILS:
+			return null
 		default:
 			return state
 	}
 }
 
-export const userReducer = (state, action) => {
-	switch (action.type) {
-		case ACTIONS.UPDATE_USER:
-			return Object.assign({}, {}, action.user)
-		default:
-			return state
-	}	
-}

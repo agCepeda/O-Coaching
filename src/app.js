@@ -1,48 +1,35 @@
 import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native'
+import { Provider, connect } from 'react-redux'
 
-import { Provider } from 'react-redux'
-
-import SplashScreen from './screens/splash-screen'
 import MainScreen from './screens/main-screen'
+import LoadingScreen from './screens/loading-screen'
 
-//import store from './store/'
+import { actions } from './store/actions'
 
+class App extends Component {
 
-export default class App extends Component {
-
-  state = {
-      isLogged: true
-  }
-
-  renderScreen () {
-    if (this.state.isLogged) {
-        return <MainScreen></MainScreen>
+    state = {
+        isLogged: true
     }
-    return <SplashScreen></SplashScreen>
-  }
 
-  render() {
-    return (
-        <SplashScreen></SplashScreen>
-    );
+    renderScreen () {
+        if (this.props.session) {
+            return <MainScreen></MainScreen>
+        }
+        return <LoadingScreen></LoadingScreen>
+    }
+
+    render() {
+        return (
+            this.renderScreen()
+        )
+    }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    session: state.session
   }
 }
-/*
-const mapStateToProps = (state) => ({
-    notifications: state.settings.notifications
-})
 
- Root = () => {
-    return (
-        <Provider store={store}>
-            <App />
-        </Provider>
-    )
-}
-*/
+export default connect(mapStateToProps, null)(App)

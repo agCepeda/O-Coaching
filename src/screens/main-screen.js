@@ -1,102 +1,112 @@
 import React, { Component } from 'react';
 
 import {
-	Container,
-	Content,
-	Header,
-	Left,
-	Right,
-	Body,
-	Title,
-	Text,
-	Button,
-	Spinner,
-	List,
-	ListItem,
-	Icon
-} from 'native-base';
+  StackNavigator,
+} from 'react-navigation';
 
 import { View, Image } from 'react-native';
+import {
+	Container,
+	Content,
+	Text,
+	H3,
+	Spinner, 
+	Header,
+	List,
+	ListItem,
+	Thumbnail,
+	Body,
+	Button,
+	Icon,
+	Drawer
+} from 'native-base'
+
 import { connect } from 'react-redux'
 import { actions } from '../store/actions'
 
-export default class MainScreen extends Component {
+import { Api } from '../api/'
+import SideBar from '../views/side-bar'
 
-	state = { albums:[] };
+class MainScreen extends Component {
+	static navigationOptions = ({ navigation }) => ({
+		title: 'Music categories',
+		headerLeft: <Button transparent onPress={ ()=> this.openDrawer() }><Icon name='menu' /></Button>
+	})
 
-	componentWillMount() {
-		fetch('https://rallycoding.herokuapp.com/api/music_albums')
-		.then((response) => response.json())
-		.then((responseData) => {
-			console.log(responseData);
-			this.setState({ albums: responseData }) 
-		});
+	state = {
+		categories: []
 	}
 
-	showAlbumDetailView(album) {
-		const { navigation } = this.props;
+	constructor(props) {
+		super(props)
+		this.api = new Api(
+			this.props.session.accessToken,
+			this.props.session.tokenType
+		)
 
-		navigation.navigate('Detail', { album })
+		console.log(this)
+	}
+
+	openDrawer() {
+		console.log(this.drawer)
+	}
+
+	componentWillMount() {
+		this.api.browseCategories(null, null, null, (responseData, error) => {
+			if (! error) {
+				console.log(responseData)
+				this.setState({ categories: responseData.categories.items })
+			}
+		})
+	}
+	renderCategoryItem(category) {
+		return (
+			<ListItem>
+          		<Thumbnail square source={ {uri: category.icons[0].url} } />
+				<Body>
+					<Text>{ category.name }</Text>
+				</Body>
+			</ListItem>
+		)
 	}
 
 	render() {
-		const styles = {
-			containerStyle: {
-				flex: 1
-			},
-			headerStyle: {
-				flexDirection: 'row',
-				flex: 1,
-				justifyContent: 'flex-start',
-				flex: 1
-			},
-			artistStyle: {
-				fontSize: 12,
-				textAlign: 'left',
-				flex: 1
-			},
-			albumStyle: {
-				fontSize: 18,
-				textAlign: 'left',
-				flex: 1
-			},
-			titleContainerStyle: {
-		        flexDirection: 'column',
-		        justifyContent: 'flex-end',
-		        alignItems: 'flex-end',
-			},
-			artistImageStyle: {
-				width: 40, height: 40,
-				borderRadius: 20
-			},
+		closeDrawer = () => {
+			this.drawer._root.close()
 		}
+
+		openDrawer = () => {
+			this.drawer._root.open()
+		}
+
 		return (
-			<View style={ styles.containerStyle }>
-				<List
-					dataArray={this.state.albums}
-					renderRow={(item) =>
-					<ListItem
-						onPress={() => {
-							this.showAlbumDetailView(item)
-						}}>
-						<View style={ styles.headerStyle }>
-							<Image style={ styles.artistImageStyle } source={ { uri: item.thumbnail_image } } />
-							<View style={ styles.titleContainerStyle }>
-								<Text style={ styles.albumStyle }>{ item.title }</Text>
-								<Text style={ styles.artistStyle }>{ item.artist }</Text>
-							</View>
-						</View>
-					</ListItem>}>
-				</List>
-			</View>
+			<Drawer
+				ref={(ref) => { this.drawer = ref; }}
+				content={<SideBar navigator={this.navigator} />}
+				onClose={() => closeDrawer()} >
+				<Container>
+					<Content>
+						<List
+							dataArray={ this.state.categories } 
+							renderRow={ this.renderCategoryItem }>
+	            		</List>
+					</Content>
+				</Container>
+			</Drawer>
+
 		)
 	}
 }
-/*
-const mapStateToProps = (state) => ({
-  session: state.session,
-  user: state.user
-})
-*/
+const mapStateToProps = function(state) {
+	return {
+		session: state.session
+	}
+}
 
-// export default connect(mapStateToProps)(MainScreen)
+// var connectionMainScreen = connect(mapStateToProps, mapDispatchToProps)(MainScreen)
+const MainNavigator = StackNavigator({
+  Main: {screen: connect(mapStateToProps, null)(MainScreen) }
+});
+
+export default MainNavigator
+

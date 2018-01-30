@@ -1,11 +1,16 @@
 export const ACTIONS = {
-	SESSION_SUCCESS: 'SESSION_SUCCESS',
-	SESSION_FAILS: 'SESSION_FAILS',
-	UPDATE_USER: 'UPDATE_USER'
+	AUTH_SUCCESS: 'AUTH_SUCCESS',
+	AUTH_FAILS: 'AUTH_FAILS',
 }
 
 export const actions = {
-	sessionSuccess: (sessionToken) => ({ type: ACTIONS.SESSION_SUCCESS, sessionToken }),
-	sessionFails: () => ({ type: ACTIONS.SESSION_SUCCESS }),
-	updateUser: (user) => ({ type: ACTIONS.UPDATE_USER, user })
+	authSuccess: (accessToken, tokenType) => {
+		console.log(accessToken, tokenType)
+		return {
+			type: ACTIONS.AUTH_SUCCESS,
+			session: { accessToken, tokenType }
+		}
+	},
+
+	authFails: () => ({ type: ACTIONS.AUTH_SUCCESS })
 }

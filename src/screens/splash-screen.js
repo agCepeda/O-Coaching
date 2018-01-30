@@ -20,16 +20,17 @@ import AlbumDetailScreen from '../screens/detail-screen'
 import { connect } from 'react-redux'
 import { actions } from '../store/actions'
 
+import Api from '../api/'
+
 class SplashScreen extends Component {
 	static navigationOptions = {
 		title: 'Welcome',
 	};
 
-	checkSession() {
-		
-	}
-
 	componentWillMount() {
+		this.api = new Api()
+
+		this.api.requestToken()
 
 	}
 
