@@ -8,10 +8,26 @@ const SideBar = () => {
 				<List>
 					<ListItem icon>
 						<Left>
-							<Icon name="search" />
+							<Icon name="artist" />
 						</Left>
 						<Body>
-							<Text>Search</Text>
+							<Text>Artist</Text>
+						</Body>
+					</ListItem>
+					<ListItem icon>
+						<Left>
+							<Icon name="album" />
+						</Left>
+						<Body>
+							<Text>Album</Text>
+						</Body>
+					</ListItem>
+					<ListItem icon>
+						<Left>
+							<Icon name="music" />
+						</Left>
+						<Body>
+							<Text>Track</Text>
 						</Body>
 					</ListItem>
 				</List>

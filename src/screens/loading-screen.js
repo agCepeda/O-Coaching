@@ -61,11 +61,9 @@ class LoadingScreen extends Component {
 		)
 	}
 }
-console.log(actions)
 
 const mapDispatchToProps = (dispatch) => ({
     authSuccess: (accessToken, tokenType) => { dispatch(actions.authSuccess(accessToken, tokenType)) }
 })
-
 
 export default connect(null, mapDispatchToProps)(LoadingScreen)
